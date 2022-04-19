@@ -5,8 +5,8 @@ const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
     Pizza.find({})
-      .then((dbPizzaData) => res.json(dbPizzaData))
-      .catch((err) => {
+      .then(dbPizzaData => res.json(dbPizzaData))
+      .catch(err => {
         console.log(err);
         res.status(400).json(err);
       });
@@ -15,7 +15,7 @@ const pizzaController = {
   // get one pizza by id
   getPizzaById({ params }, res) {
     Pizza.findOne({ _id: params.id })
-      .then((dbPizzaData) => {
+      .then(dbPizzaData => {
         // If no pizza is found, send 404
         if (!dbPizzaData) {
           res.status(404).json({ message: 'No pizza found with this id!' });
@@ -23,19 +23,21 @@ const pizzaController = {
         }
         res.json(dbPizzaData);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         res.status(400).json(err);
       });
   },
 }
 
+
 // createPizza
 createPizza({ body }, res) {
   Pizza.create(body)
     .then(dbPizzaData => res.json(dbPizzaData))
     .catch(err => res.status(400).json(err));
-}
+},
+
 
 // update pizza by id
 updatePizza({ params, body }, res) {
@@ -48,7 +50,7 @@ updatePizza({ params, body }, res) {
       res.json(dbPizzaData);
     })
     .catch(err => res.status(400).json(err));
-}
+},
 
 // delete pizza
 deletePizza({ params }, res) {
