@@ -1,12 +1,12 @@
 let db;
 const request = indexedDB.open('pizza_hunt', 1);
 
-request.onupgradeneeded = function(event) {
+request.onupgradeneeded = function (event) {
   const db = event.target.result;
   db.createObjectStore('new_pizza', { autoIncrement: true });
 };
 
-request.onsuccess = function(event) {
+request.onsuccess = function (event) {
   // when db is successfully created with its object store (from onupgradedneeded event above), save reference to db in global variable
   db = event.target.result;
 
@@ -16,7 +16,7 @@ request.onsuccess = function(event) {
   }
 };
 
-request.onerror = function(event) {
+request.onerror = function (event) {
   // log error here
   console.log(event.target.errorCode);
 };
@@ -40,7 +40,7 @@ function uploadPizza() {
   // get all records from store and set to a variable
   const getAll = pizzaObjectStore.getAll();
 
-  getAll.onsuccess = function() {
+  getAll.onsuccess = function () {
     // if there was data in indexedDb's store, let's send it to the api server
     if (getAll.result.length > 0) {
       fetch('/api/pizzas', {
@@ -48,11 +48,11 @@ function uploadPizza() {
         body: JSON.stringify(getAll.result),
         headers: {
           Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
-        .then(response => response.json())
-        .then(serverResponse => {
+        .then((response) => response.json())
+        .then((serverResponse) => {
           if (serverResponse.message) {
             throw new Error(serverResponse);
           }
@@ -62,7 +62,7 @@ function uploadPizza() {
           // clear all items in your store
           pizzaObjectStore.clear();
         })
-        .catch(err => {
+        .catch((err) => {
           // set reference to redirect back here
           console.log(err);
         });
